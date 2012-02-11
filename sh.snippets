@@ -1,0 +1,126 @@
+# Shebang
+snippet #!
+	#!/bin/bash
+	################################################################################
+	# Created on: `system("date +%m-%d-%Y")`
+	# Author: ${2:`system("whoami")`}
+	#
+	# Description: ${1:description}
+	################################################################################
+
+	${3}
+
+	# vim:ft=sh:fdm=syntax:nu:
+snippet #! env
+	#!/usr/bin/env bash
+	################################################################################
+	# Created on: `system("date +%m-%d-%Y")`
+	# Author: ${2:`system("whoami")`}
+	#
+	# Description: ${1:description}
+	################################################################################
+
+	${3}
+
+	# vim:ft=sh:fdm=syntax:nu:
+snippet if
+	if [[ ${1:condition} ]]; then
+		${2:#statements}
+	fi
+snippet elif
+	elif [[ ${1:condition} ]]; then
+		${2:#statements}
+snippet condition $#
+	${1:$#} -lt ${2:1}
+snippet condition gt
+	${1:$var} -gt ${2:$other}
+snippet condition lt
+	${1:$#} -lt ${2:1}
+snippet condition isroot
+	"$(id -u)" != "0"
+snippet condition iffile
+	! -e ${1:filename}
+snippet condition ifdir
+	-d ${1:namedir}
+snippet for
+	for (( ${2:i} = 0; $2 < ${1:count}; $2++ )); do
+		${3:#statements}
+	done
+snippet for list
+	for ${1:needle} in ${2:haystack} ; do
+		${3:#statements}
+	done
+snippet for times-sequence #2
+	for ${1:i} in {${2:1}..${3:10}}
+	do
+		echo "$$1"
+	done
+snippet for c-style #3
+	for (( ${2:i} = 0; $2 < ${1:count}; $2++ )); do
+		${3:#statements}
+	done
+snippet for index-loop #4
+	for ${1:i}  in ${!${2:Array}[@]}
+	do
+		echo "${$2[$1]}"
+	done
+snippet for numargs #5
+	numargs=$#
+	for ((i=1 ; i <= numargs ; i++)); do
+		echo "$1"
+		shift
+	done
+snippet wh
+	while [[ ${1:condition} ]]; do
+		${2:#statements}
+	done
+snippet until
+	until [[ ${1:condition} ]]; do
+		${2:#statements}
+	done
+snippet case
+	case ${1:word} in
+		${2:pattern})
+			${3};;
+	esac
+snippet getopts 
+	while getopts '${1:o}' ${2:opts} 
+	do 
+		case $$2 in
+		${3:o0})
+			${4:#staments};;
+		esac
+	done
+# Set SCRIPT_DIR variable to directory script is located.
+snippet sdir
+	SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+snippet fun
+	function ${1:name}(){
+		${2:Commands}
+	}
+snippet yesno simple
+	read ${1:yn}
+	if [[ $$1 =~ [Yy] ]]; then
+		echo "${2:#statement}"
+	else
+		echo "${3:#statement}"
+	fi
+snippet yesno longer
+	echo -n "Do you wish to ${1:#question}" '[y/n] ' ; read ${2:ans}
+	case "$$2" in
+		y*|Y*) ${3:#statement} ;;
+		*) ${4:#statement};;
+	esac
+snippet usage
+	usage()
+	{
+		echo "Usage: $(basename $${1:0}) ${2:argument}"
+		echo "${3:explanation}"
+	}
+snippet arr list
+	${1:array}=(${2:first} ${3:second} ${4}) ${5}
+snippet arr keyed
+	${1:array}[0]=${2:value}
+	$1[1]=${3:value}
+	$1[2]=${4:value}
+	${5}
