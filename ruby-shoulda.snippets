@@ -1,75 +1,97 @@
-snippet shdc
-	should_have_db_columns :${1:field}
+snippet shdc "shdc"
+should_have_db_columns :${1:field}
+endsnippet
 
-snippet svno
-	should_validate_numericality_of :${1:field}
+snippet svno "svno"
+should_validate_numericality_of :${1:field}
+endsnippet
 
-snippet setup
-	setup do
-	${1}
-	end
+snippet setup "setup"
+setup do
+${1}
+end
+endsnippet
 
-snippet sho
-	should_have_one :${1:association}
+snippet sho "sho"
+should_have_one :${1:association}
+endsnippet
 
-snippet savf
-	should_allow_values_for :${1:field}, "${2:value}"
+snippet savf "savf"
+should_allow_values_for :${1:field}, "${2:value}"
+endsnippet
 
-snippet shabtm
-	should_have_and_belong_to_many :${1:association}
+snippet shabtm "shabtm"
+should_have_and_belong_to_many :${1:association}
+endsnippet
 
-snippet shcm
-	should_have_class_methods :${1:method}
+snippet shcm "shcm"
+should_have_class_methods :${1:method}
+endsnippet
 
-snippet context
-	context "${1:context}" do
-	
-	${2}
-	
-	end
+snippet context "context"
+context "${1:context}" do
+${2}
+end
+endsnippet
 
-snippet snamao
-	should_not_allow_mass_assignment_of :${1:field}
+snippet snamao "snamao"
+should_not_allow_mass_assignment_of :${1:field}
+endsnippet
 
-snippet svpo
-	should_validate_presence_of :${1:field}
+snippet svpo "svpo"
+should_validate_presence_of :${1:field}
+endsnippet
 
-snippet shroa
-	should_have_read_only_attributes :${1:field}
+snippet shroa "shroa"
+should_have_read_only_attributes :${1:field}
+endsnippet
 
-snippet selir
-	should_ensure_length_in_range :${1:field}, ${2:start}..${3:end}
+snippet selir "selir"
+should_ensure_length_in_range :${1:field}, ${2:start}..${3:end}
+endsnippet
 
-snippet shim
-	should_have_instance_methods :${1:method}
+snippet shim "shim"
+should_have_instance_methods :${1:method}
+endsnippet
 
-snippet svao
-	should_validate_acceptance_of :${1:field}
+snippet svao "svao"
+should_validate_acceptance_of :${1:field}
+endsnippet
 
-snippet samao
-	should_allow_mass_assignment_of :${1:field}
+snippet samao "samao"
+should_allow_mass_assignment_of :${1:field}
+endsnippet
 
-snippet snavf
-	should_not_allow_values_for :${1:field}, "${2:value}"
+snippet snavf "snavf"
+should_not_allow_values_for :${1:field}, "${2:value}"
+endsnippet
 
-snippet seli
-	should_ensure_length_is :${1:field}, ${2:length}
+snippet seli "seli"
+should_ensure_length_is :${1:field}, ${2:length}
+endsnippet
 
-snippet svuo
-	should_validate_uniqueness_of :${1:field}, :scoped_to => ${2:arrayofnames}
+snippet svuo "svuo"
+should_validate_uniqueness_of :${1:field}, :scoped_to => ${2:arrayofnames}
+endsnippet
 
-snippet sbt
-	should_belong_to :${1:association}
+snippet sbt "sbt"
+should_belong_to :${1:association}
+endsnippet
 
-snippet shi
-	should_have_indices :${1:field}
+snippet shi "shi"
+should_have_indices :${1:field}
+endsnippet
 
-snippet selal
-	should_ensure_length_at_least :${1:field}, ${2:min_length}
+snippet selal "selal"
+should_ensure_length_at_least :${1:field}, ${2:min_length}
+endsnippet
 
-snippet sevir
-	should_ensure_value_in_range :${1:field}, ${2:start}..${3:end}
+snippet sevir "sevir"
+should_ensure_value_in_range :${1:field}, ${2:start}..${3:end}
+endsnippet
 
-snippet shm
-	should_have_many :${1:association}
+snippet shm "shm"
+should_have_many :${1:association}
+endsnippet
+
 

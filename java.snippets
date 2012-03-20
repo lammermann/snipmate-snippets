@@ -1,196 +1,448 @@
-snippet th
-	throw
+###########################################################################
+#                            TEXTMATE SNIPPETS                            #
+###########################################################################
 
-snippet class basic+constructor+main #1
-	/**
-	* class $2
-	* @author ${4:`g:snips_author`}
-	*/
-	${1:public} class ${2:`Snippet_JavaClassNameFromFilename()`}${3} {
-	
-	/**
-	* Constructor for $2
-	*/
-	public $2(${4}) {
-	${5}
-	}
-	
-	public static void main(String args[]) {
-	}
-	
-	}
+# Many of the snippets here use a global option called
+# "g:ultisnips_java_brace_style" which, if set to "nl" will put a newline
+# before '{' braces.
 
-snippet class basic+constructor #2
-	/**
-	* class $2
-	* @author ${4:`g:snips_author`}
-	*/
-	${1:public} class ${2:`Snippet_JavaClassNameFromFilename()`}${3} {
-	
-	/**
-	* Constructor for $2
-	*/
-	public $2(${5}){
-	${6}
-	}
-	
-	}
+global !p
+def nl(snip):
+    if snip.opt("g:ultisnips_java_brace_style", "") == "nl":
+        snip += ""
+    else:
+        snip.rv += " "
+endglobal
 
-snippet class basic #3
-	/**
-	* class $2
-	* @author ${4:`g:snips_author`}
-	*/
-	${1:public} class ${2:`Snippet_JavaClassNameFromFilename()`}${3} {
-	
-	/**
-	* Constructor for $2
-	*/
-	public $2(${5}){
-	${6}
-	}
-	
-	}
+snippet ab "abstract" b
+abstract 
+endsnippet
 
-snippet j.b
-	java.beans.
+snippet as "assert" b
+assert ${1:test}${2/(.+)/(?1: \: ")/}${2:Failure message}${2/(.+)/(?1:")/};$0
+endsnippet
 
-snippet m
-	/**
-	* ${7:Method Description}
-	* ${5}
-	* @return ${6}
-	*/
-	${1:public} ${2:void} ${3:methodName}(${4}) {
-	${8}
-	}
+snippet br "break"
+break;
+endsnippet
 
-snippet sy
-	synchronized
+snippet cs "case" b
+case $1:
+	$2
+$0
+endsnippet
 
-snippet co
-	static public final ${1:String} ${2:var} = ${3};${4}
+snippet ca "catch" b
+catch (${1:Exception} ${2:e})`!p nl(snip)`{
+	$0
+}
+endsnippet
 
-snippet as
-	assert ${1:test} : "${2:Failure message}";${3}
+snippet cl "class" b
+class ${1:`!p
+snip.rv = snip.basename or "untitled"`} ${2:extends ${3:Parent} }${4:implements ${5:Interface} }{
+	$0
+}
+endsnippet
 
-snippet j.u
-	java.util
+snippet cos "constant string" b
+static public final String ${1:var} = "$2";$0
+endsnippet
 
-snippet de
-	default:
-	${1}
+snippet co "constant" b
+static public final ${1:String} ${2:var} = $3;$0
+endsnippet
 
-snippet br
-	break;
+snippet de "default" b
+default:
+	$0
+endsnippet
 
-snippet st
-	static
+snippet elif "else if" b
+else if ($1)`!p nl(snip)`{
+	$0
+}
+endsnippet
 
-snippet if
-	if(${1}){
-	${2}
-	}
+snippet /el(se)?/ "else" br
+else`!p nl(snip)`{
+	$0
+}
+endsnippet
 
-snippet pr
-	private
+snippet fi "final" b
+final 
+endsnippet
 
-snippet j.i
-	java.io.
+snippet fore "for (each)" b
+for ($1 : $2)`!p nl(snip)`{
+	$0
+}
+endsnippet
 
-snippet log
-	System.${1:out}.println(${2});
+snippet for "for" b
+for ($1; $2; $3)`!p nl(snip)`{
+	$0
+}
+endsnippet
 
-snippet cl
-	class ${1:`Filename("", "untitled")`} ${2}
+snippet if "if" b
+if ($1)`!p nl(snip)`{
+	$0
+}
+endsnippet
 
-snippet gs
-	//getter for $3
-	public ${2:variable_type} get${1:VariableName}() {
-	return ${3:variableName};
-	}
-	
-	//setter for $3
-	public void set$1($2 $3) {
-	this.$3 = $3;
-	}${4}
+snippet imt "import junit_framework_TestCase;"  b
+import junit.framework.TestCase;
+$0
+endsnippet
 
-snippet v
-	${1:String} ${2:var}${3: = null}${4};${5}
+snippet im "import"  b
+import 
+endsnippet
 
-snippet j.n
-	java.net.
+snippet in "interface" b
+interface ${1:`!p snip.rv = snip.basename or "untitled"`} ${2:extends ${3:Parent} }{
+	$0
+}
+endsnippet
 
-snippet for
-	for(${1:int i=0}; ${2:condition}; ${3:i++}){
-	${4}
-	}
+snippet j.b "java_beans_" i
+java.beans.
+endsnippet
 
-snippet po
-	protected
+snippet j.i "java_io" i
+java.io.
+endsnippet
 
-snippet re
-	return
+snippet j.m "java_math" i
+java.math.
+endsnippet
 
-snippet ca
-	catch(${1:Exception} ${2:e}) ${3}
+snippet j.n "java_net_" i
+java.net.
+endsnippet
 
-snippet ab
-	abstract
+snippet j.u "java_util_"  i
+java.util.
+endsnippet
 
-snippet tc
-	public class ${1:`Filename()`} extends ${2:TestCase}
+snippet main "method (main)" b
+public static void main(String[] args)`!p nl(snip)`{
+	$0
+}
+endsnippet
 
-snippet cos
-	static public final String ${1:var} = "${2}";${3}
+snippet m "method" b
+${1:void} ${2:method}($3) ${4:throws $5 }{
+	$0
+}
+endsnippet
 
-snippet fore
-	for (${1} : ${2}) ${3}
+snippet pa "package" b
+package 
+endsnippet
 
-snippet j.m
-	java.math.
+snippet p "print" b
+System.out.print($1);$0
+endsnippet
 
-snippet el
-	else
+snippet pl "println"  b
+System.out.println($1);$0
+endsnippet
 
-snippet in
-	interface ${1:`Filename("", "untitled")`} ${2:extends Parent}${3}
+snippet pr "private" b
+private 
+endsnippet
 
-snippet t
-	public void test${1:Name}() throws Exception ${2}
+snippet po "protected" b
+protected 
+endsnippet
 
-snippet cs
-	case ${1}:
-	${2}
-	${3}
+snippet pu "public" b
+public 
+endsnippet
 
-snippet im
-	import
+snippet re "return" b
+return 
+endsnippet
 
-snippet wh
-	while (${1}) ${2}
+snippet st "static"
+static 
+endsnippet
 
-snippet sw
-	switch (${1}) ${2}
+snippet sw "switch" b
+switch ($1)`!p nl(snip)`{
+	$0
+}
+endsnippet
 
-snippet elif
-	else if (${1}) ${2}
+snippet sy "synchronized"
+synchronized 
+endsnippet
 
-snippet pu
-	public
+snippet tc "test case"
+public class ${1:`!p snip.rv = snip.basename or "untitled"`} extends ${2:TestCase}`!p nl(snip)`{
+	$0
+}
+endsnippet
 
-snippet ife
-	if(${1}){
-	${2}
-	}else{
-	}
+snippet t "test" b
+public void test${1:Name}() throws Exception`!p nl(snip)`{
+	$0
+}
+endsnippet
 
-snippet fi
-	final
+snippet th "throw" b
+throw $0
+endsnippet
 
-snippet main
-	public static void main (String [] args)
-	{
-	${1:/* code */}
-	}
+snippet v "variable" b
+${1:String} ${2:var}${3: = ${0:null}};
+endsnippet
 
+snippet wh "while" b
+while ($1)`!p nl(snip)`{
+	$0
+}
+endsnippet
+
+snippet th "th"
+throw
+endsnippet
+
+snippet class "basic+constructor+main #1"
+/**
+* class $2
+* @author ${4:`!v g:snips_author`}
+*/
+${1:public} class ${2:`!v Snippet_JavaClassNameFromFilename()`}${3} {
+
+/**
+* Constructor for $2
+*/
+public $2(${4}) {
+${5}
+}
+
+public static void main(String args[]) {
+}
+
+}
+endsnippet
+
+snippet class "basic+constructor #2"
+/**
+* class $2
+* @author ${4:`!v g:snips_author`}
+*/
+${1:public} class ${2:`!v Snippet_JavaClassNameFromFilename()`}${3} {
+
+/**
+* Constructor for $2
+*/
+public $2(${5}){
+${6}
+}
+
+}
+endsnippet
+
+snippet class "basic #3"
+/**
+* class $2
+* @author ${4:`!v g:snips_author`}
+*/
+${1:public} class ${2:`!v Snippet_JavaClassNameFromFilename()`}${3} {
+
+/**
+* Constructor for $2
+*/
+public $2(${5}){
+${6}
+}
+
+}
+endsnippet
+
+snippet j.b "j.b"
+java.beans.
+endsnippet
+
+snippet m "m"
+/**
+* ${7:Method Description}
+* ${5}
+* @return ${6}
+*/
+${1:public} ${2:void} ${3:methodName}(${4}) {
+${8}
+}
+endsnippet
+
+snippet sy "sy"
+synchronized
+endsnippet
+
+snippet co "co"
+static public final ${1:String} ${2:var} = ${3};${4}
+endsnippet
+
+snippet as "as"
+assert ${1:test} : "${2:Failure message}";${3}
+endsnippet
+
+snippet j.u "j.u"
+java.util
+endsnippet
+
+snippet de "de"
+default:
+${1}
+endsnippet
+
+snippet br "br"
+break;
+endsnippet
+
+snippet st "st"
+static
+endsnippet
+
+snippet if "if"
+if(${1}){
+${2}
+}
+endsnippet
+
+snippet pr "pr"
+private
+endsnippet
+
+snippet j.i "j.i"
+java.io.
+endsnippet
+
+snippet log "log"
+System.${1:out}.println(${2});
+endsnippet
+
+snippet cl "cl"
+class ${1:`!v Filename("", "untitled")`} ${2}
+endsnippet
+
+snippet gs "gs"
+//getter for $3
+public ${2:variable_type} get${1:VariableName}() {
+return ${3:variableName};
+}
+
+//setter for $3
+public void set$1($2 $3) {
+this.$3 = $3;
+}${4}
+endsnippet
+
+snippet v "v"
+${1:String} ${2:var}${3: = null}${4};${5}
+endsnippet
+
+snippet j.n "j.n"
+java.net.
+endsnippet
+
+snippet for "for"
+for(${1:int i=0}; ${2:condition}; ${3:i++}){
+${4}
+}
+endsnippet
+
+snippet po "po"
+protected
+endsnippet
+
+snippet re "re"
+return
+endsnippet
+
+snippet ca "ca"
+catch(${1:Exception} ${2:e}) ${3}
+endsnippet
+
+snippet ab "ab"
+abstract
+endsnippet
+
+snippet tc "tc"
+public class ${1:`!v Filename()`} extends ${2:TestCase}
+endsnippet
+
+snippet cos "cos"
+static public final String ${1:var} = "${2}";${3}
+endsnippet
+
+snippet fore "fore"
+for (${1} : ${2}) ${3}
+endsnippet
+
+snippet j.m "j.m"
+java.math.
+endsnippet
+
+snippet el "el"
+else
+endsnippet
+
+snippet in "in"
+interface ${1:`!v Filename("", "untitled")`} ${2:extends Parent}${3}
+endsnippet
+
+snippet t "t"
+public void test${1:Name}() throws Exception ${2}
+endsnippet
+
+snippet cs "cs"
+case ${1}:
+${2}
+${3}
+endsnippet
+
+snippet im "im"
+import
+endsnippet
+
+snippet wh "wh"
+while (${1}) ${2}
+endsnippet
+
+snippet sw "sw"
+switch (${1}) ${2}
+endsnippet
+
+snippet elif "elif"
+else if (${1}) ${2}
+endsnippet
+
+snippet pu "pu"
+public
+endsnippet
+
+snippet ife "ife"
+if(${1}){
+${2}
+}else{
+}
+endsnippet
+
+snippet fi "fi"
+final
+endsnippet
+
+snippet main "main"
+public static void main (String [] args)
+{
+${1:/* code */}
+}
+endsnippet
+
+# vim:ft=snippets:
