@@ -1,3 +1,6 @@
+###########################################################################
+#                            TextMate Snippets                            #
+###########################################################################
 # main()
 snippet main "main"
 int main(int argc, const char *argv[])
@@ -44,31 +47,37 @@ endsnippet
 
 snippet #if "#if"
 #if ${1:FOO}
-${2:/* data */}
+${0:/* data */}
 #endif
 endsnippet
 
 # Header Include-Guard
-snippet once "once"
+snippet once "Include header once only guard"
 /**
 * @file ${1:`!v Filename('', 'TODO')`}
 *
 * @brief ${3: TODO}
 *
 */
-#ifndef ${2:`!v toupper(Filename('', 'UNTITLED')).'_H'`}
+#ifndef ${2:`!p
+if not snip.c:
+	import random, string
+	name = re.sub(r'[^A-Za-z0-9]+','_', snip.fn).upper()
+	snip.rv = name.upper()
+else:
+    snip.rv = snip.c`}
 #define $2
 
-${4}
+${0}
 
 #endif /* $2 */
 endsnippet
 
 # If Condition
-snippet if "if"
+snippet if "if .. (if)"
 if (${1:/* condition */})
 {
-	${2:/* code */}
+	${0:/* code */}
 }
 endsnippet
 
@@ -105,10 +114,10 @@ unsigned
 endsnippet
 
 # For Loop
-snippet for "for"
-for (${2:i} = 0; $2 < ${1:count}; $2${3:++})
+snippet for "for int loop (fori)"
+for (${2:i} = 0; $2 < ${1:count}; ${3:$2++})
 {
-	${4:/* code */}
+	${0:/* code */}
 }
 endsnippet
 
@@ -139,11 +148,11 @@ typedef ${1:int} ${2:MyCustomType};${3}
 endsnippet
 
 # Struct
-snippet st "st"
-struct ${1:`!v Filename('$1_t', 'name')`}
+snippet !st(ruct)?! "struct" br
+struct ${1:`!p snip.rv = (snip.basename or "name") + "_t"`}
 {
-	${2:/* data */}
-}${3: /* optional variable list */};${4}
+	${0:/* data */}
+};
 endsnippet
 
 # Typedef struct
@@ -162,23 +171,11 @@ typedef enum
 } ${2:foo};
 endsnippet
 
-# printf
-snippet pr "pr"
-printf("${1:%s}\n"${2});${3}
-endsnippet
-
-snippet fpr "fpr"
-fprintf(${1:stderr}, "${2:%s}\n"${3});${4}
-endsnippet
-
 # This is kind of convenient
 snippet . "."
 [${1}]${2}
 endsnippet
 
-###########################################################################
-#                            TextMate Snippets                            #
-###########################################################################
 snippet def "#ifndef ... #define ... #endif"
 #ifndef ${1/([A-Za-z0-9_]+).*/$1/}
 #define ${1:SYMBOL} ${2:value}
@@ -216,32 +213,8 @@ int main(int argc, char const *argv[])
 }
 endsnippet
 
-snippet for "for int loop (fori)"
-for (${4:size_t} ${2:i} = 0; $2 < ${1:count}; ${3:++$2})
-{
-	${0:/* code */}
-}
-endsnippet
-
 snippet enum "Enumeration"
 enum ${1:name} { $0 };
-endsnippet
-
-snippet once "Include header once only guard"
-#ifndef ${1:`!p
-if not snip.c:
-	import random, string
-	name = re.sub(r'[^A-Za-z0-9]+','_', snip.fn).upper()
-	rand = ''.join(random.sample(string.ascii_letters+string.digits, 8))
-	snip.rv = ('%s_%s' % (name,rand)).upper()
-else:
-    snip.rv = snip.c`}
-#define $1
-
-${0}
-
-#endif /* end of include guard: $1 */
-
 endsnippet
 
 snippet td "Typedef"
@@ -254,26 +227,13 @@ do {
 } while(${1:/* condition */});
 endsnippet
 
-snippet fprintf "fprintf ..."
+# printf
+snippet !fpr(intf)?! "fprintf ..." br
 fprintf(${1:stderr}, "${2:%s}\n"${2/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$3${2/([^%]|%%)*(%.)?.*/(?2:\);)/}
 endsnippet
 
-snippet if "if .. (if)"
-if (${1:/* condition */})
-{
-	${0:/* code */}
-}
-endsnippet
-
-snippet printf "printf .. (printf)"
+snippet !pr(intf)?! "printf .. (printf)" br
 printf("${1:%s}\n"${1/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$2${1/([^%]|%%)*(%.)?.*/(?2:\);)/}
-endsnippet
-
-snippet st "struct"
-struct ${1:`!p snip.rv = (snip.basename or "name") + "_t"`}
-{
-	${0:/* data */}
-};
 endsnippet
 
 # vim:ft=snippets:

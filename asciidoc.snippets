@@ -1,0 +1,32 @@
+###########################################################################
+#                          SNIPPETS for ASCIIDOC                          #
+###########################################################################
+
+############
+#  Titles  #
+############
+snippet title "global title" b
+${1:title}
+${1/./=/g}
+$0
+endsnippet
+
+snippet title "section" b
+${1:section title}
+${1/./-/g}
+$0
+endsnippet
+
+snippet title "sub section" b
+${1:section title}
+${1/./~/g}
+$0
+endsnippet
+
+snippet title "sub sub section" b
+${1:section title}
+${1/./^/g}
+$0
+endsnippet
+
+# vim:ft=snippets:
