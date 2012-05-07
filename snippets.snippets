@@ -6,14 +6,16 @@
 # and parsed correctly
 snippet snip "Snippet definition" !
 `!p snip.rv = "snippet"` ${1:Tab_trigger} "${2:Description}" ${3:!b}
-$0
+${4:${VISUAL}}
 `!p snip.rv = "endsnippet"`
+$0
 endsnippet
 
 snippet global "Global snippet" !
 `!p snip.rv = "global"` !p
-$0
+${1:${VISUAL}}
 `!p snip.rv = "endglobal"`
+$0
 endsnippet
 
 snippet vis "${VISUAL}" i

@@ -1,39 +1,39 @@
-snippet choose "choose"
+snippet choose "choose" b
 <xsl:choose>
-<xsl:when test="${1:test}">
-${2}
-</xsl:when>
-<xsl:otherwise>
-</xsl:otherwise>
+    <xsl:when test="${1:test}">
+        ${2}
+    </xsl:when>
+    <xsl:otherwise>
+    </xsl:otherwise>
 </xsl:choose>
 endsnippet
 
-snippet tem "tem"
+snippet tem "template"
 <xsl:template name="${1:name}">
-${2}
+    ${2}
 </xsl:template>
 endsnippet
 
-snippet value "value"
+snippet value "value-of"
 <xsl:value-of select="${1:select}"/>
 endsnippet
 
-snippet xdec "xdec"
+snippet xdec "xdec" b
 <?xml version="1.0" ecoding="${1:encoding}"?>
-${2}
+$0
 endsnippet
 
-snippet var "var"
+snippet var "variable"
 <xsl:variable name="${1:name}"/>
-${2}
+    ${2}
 </xsl:variable>
 endsnippet
 
-snippet wparam "wparam"
+snippet wparam "with-param"
 <xsl:with-param name="${1:name}" select="${2:select}" />
 endsnippet
 
-snippet out "out"
+snippet out "output"
 <xsl:output omit-xml-declaration="${1:yes}" method="${2:html}"/>
 endsnippet
 
@@ -41,21 +41,21 @@ snippet param "param"
 <xsl:param name="${1:name}" />
 endsnippet
 
-snippet call "call"
+snippet call "call-template" b
 <xsl:call-template name="${1:template}">
-${2}
+    ${2}
 </xsl:call-template>
 endsnippet
 
-snippet mat "mat"
+snippet mat "match" b
 <xsl:template match="${1:match}"/>
-${2}
+    ${2}
 </xsl:template>
 endsnippet
 
-snippet sty "sty"
+snippet sty "stylesheet" b
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-${1}
+    ${1}
 </xsl:stylesheet>
 endsnippet
 
