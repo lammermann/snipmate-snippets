@@ -1,7 +1,7 @@
 ###########################################################################
 #                            SnipMate Snippets                            #
 ###########################################################################
-snippet header "header"
+snippet header "header" b
 " File: ${1:`!v expand('%:t')`}
 " Author: ${2:`!v g:snips_author`}
 " Description: ${3}
@@ -10,13 +10,13 @@ ${4:" Last Modified: `!v strftime("%B %d, %Y")`}
 $0
 endsnippet
 
-snippet gvar "Global / configuration variable"
+snippet gvar "Global / configuration variable" b
 if !exists("g:${2:`!p snip.rv = snip.basename`${1:_MyVar}}")
 	let g:$2 = ${3:"${4:<tab>}"}
 endif
 endsnippet
 
-snippet guard
+snippet guard "Load Guard" b
 if exists('${1:did_`!p snip.rv = snip.fn.replace('.','_')`}') || &cp${2: || version < 700}
 	finish
 endif
@@ -30,7 +30,7 @@ fun! ${1:`!v expand('%') =~ 'autoload' ? substitute(matchstr(expand('%:p'),'auto
 endf
 endsnippet
 
-snippet try "try"
+snippet try "try" b
 try
 	${1}
 catch ${2}
@@ -38,29 +38,29 @@ catch ${2}
 endtry
 endsnippet
 
-snippet for "for"
+snippet for "for" b
 for ${1:needle} in ${2:haystack}
 	${3:" code}
 endfor
 endsnippet
 
-snippet wh "wh"
+snippet wh "while" b
 while ${1:condition}
 	${2:" code}
 endw
 endsnippet
 
-snippet if "if"
+snippet if "if" b
 if ${1:condition}
 	${2:" code}
 endif
 endsnippet
 
-snippet ife "ife"
+snippet ife "if else" b
 if ${1:condition}
-	${2}
+	${2:" code}
 else
-	${3}
+	${3:code}
 endif
 endsnippet
 
@@ -68,28 +68,22 @@ snippet com "command" b
 command! ${4}-nargs=${1:number_of_args} ${2:name} ${3:command}
 endsnippet
 
-snippet log "log"
-echomsg ${1}
+snippet log "log message"
+echomsg ${1:"${2:message}"}
 endsnippet
 
-snippet for "for"
-for ${1:needle} in ${2:haystack}
-	${3:" code}
-endfor
-endsnippet
-
-snippet func "function"
+snippet func "function" b
 " ${3:description}
 function! ${1:name}(${2:...})
 	${5:" code}
 endfunction
 endsnippet
 
-snippet au "autocmd"
+snippet au "autocmd" b
 autocmd ${1:events} ${2:pattern} ${3:command}
 endsnippet
 
-snippet au "group"
+snippet au "group" b
 augroup ${1:AU_NAME}
 endsnippet
 
