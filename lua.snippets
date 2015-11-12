@@ -1,75 +1,72 @@
 #################################
 # Snippets for the Lua language #
 #################################
+global !p
+def complete(t, opts):
+	if t:
+		opts = [ m[len(t):] for m in opts if m.startswith(t) ]
+	if len(opts) == 1:
+		return opts[0]
+	return "(" + "|".join(opts) + ")"
+
+def ifempty(t,iftrue,iffalse):
+	if not t or t == "":
+		return iftrue
+	return iffalse
+endglobal
+
 snippet #! "Shebang header" b
 #!/usr/bin/env lua
 $0
 endsnippet
 
-snippet lo "local x = 1"
+snippet lo "local variable"
 local ${1:x} = ${0:1}
 endsnippet
 
-snippet !fun(ction)?! "New function" br
+snippet fun "function"
 function ${1:fname}(${2:...})
 	${3:-- body}
 end
 endsnippet
 
-snippet forp "pair for loop" b
-for ${1:name},${2:val} in pairs(${3:table_name}) do
-   $0
+snippet funa "anonyme function"
+function(${1:args}) ${3:return $1.${2:member}} end$0
+endsnippet
+
+snippet f "anonyme function"
+function(${1:args}) ${3:return $1.${2:member}} end$0
+endsnippet
+
+snippet forp "pairs for loop" b
+for ${1:k},${2:v} in pairs(${3:table_name}) do
+	${4:-- body}
 end
 endsnippet
 
-snippet fori "ipair for foop" b
-for ${1:idx},${2:val} in ipairs(${3:table_name}) do
-   $0
+snippet fori "ipairs" b
+for ${1:i},${2:v} in ipairs(${3:table_name}) do
+	${4:-- body}
 end
 endsnippet
 
 snippet for "numeric for loop" b
-for ${1:i}=${2:first},${3:last}${4/^..*/(?0:,:)/}${4:step} do
-   $0
+for ${1:i}=${2:1},${3:last}`!p snip.rv=ifempty(t[4],'',',')`${4:step} do
+	${5:print($1)}
 end
 endsnippet
 
-# generic for
-snippet for "generic"
-for ${1:i}=${2:1},${3:10} do
-	${4:print(i)}
-end
-endsnippet
-
-# pairs
-snippet for "pairs"
-for ${1:i},${2:v} in pairs(${3:table_name}) do
-   ${4:-- body}
-end
-endsnippet
-
-# ipairs
-snippet for "ipairs"
-for ${1:i},${2:v} in ipairs(${3:table_name}) do
-   ${4:-- body}
-end
-endsnippet
-
-snippet rep "rep"
+snippet rep "repeat ... until"
 repeat
 	${1:--[[ code ]]}
 until ${2:condition}
 endsnippet
 
-snippet tn "tn"
-tonumber(${1:var})${2}
+snippet to "to(string|number)"
+to$1`!p snip.rv=complete(t[1],['string','number'])`(${2:var})$0
 endsnippet
 
-snippet gmt "gmt"
-getmetatable(${1:tbl})
-endsnippet
-
-snippet tsortf "tsortf"
+snippet tsortf "table sort function"
 table.sort(${1:tbl}, function(${2:a}, ${3:b})
 	${4:--[[ code ]]}
 end)
@@ -81,15 +78,15 @@ if ${1:condition} then
 end
 endsnippet
 
-snippet ass "ass"
+snippet ass "assert"
 assert(${1:test} == ${2:condition}, "${3:errmsg}")
 endsnippet
 
-snippet pr "pr"
+snippet pr "print"
 print(${1})
 endsnippet
 
-snippet tins "tins"
+snippet tins "table insert"
 ${1:tbl}[#$1 + ${3:1}] = ${2:val}${4}
 endsnippet
 
@@ -99,19 +96,19 @@ local function ${1:function_name}(${2:args})
 end
 endsnippet
 
-snippet ret "ret"
-return ${1:0}
+snippet ret "return"
+return ${1:true}
 endsnippet
 
-snippet req "req"
+snippet req "require"
 require "${1:module}"
 endsnippet
 
-snippet f "f"
-function(${1:args}) ${2:--[[ code ]]} end
+snippet gmt "getmetatable"
+getmetatable(${1:tbl})
 endsnippet
 
-snippet smt "smt"
+snippet smt "setmetatable"
 setmetatable(${1:tbl}, ${2:...})
 endsnippet
 
@@ -119,17 +116,17 @@ snippet tsort "tsort"
 table.sort(${1:tbl}, function(a, b) return a ${2:<} b end)
 endsnippet
 
-snippet eli "eli"
+snippet eli "elseif"
 elseif ${3:condition} then
-${4:--[[ code ]]}
+	${4:--[[ code ]]}
 endsnippet
 
-snippet el "el"
+snippet el "else"
 else
-${1:--[[ code ]]}
+	${1:--[[ code ]]}
 endsnippet
 
-snippet -- "--"
+snippet -- "block comment"
 --[[
 ${1:comment}
 ]]
@@ -139,7 +136,7 @@ snippet t "t"
 ${1:a} and ${2:b} or ${3:c}
 endsnippet
 
-snippet tcat "tcat"
+snippet tcat "table concat"
 table.concat(${1:tbl}, ${2:","})
 endsnippet
 
@@ -149,11 +146,7 @@ do
 end
 endsnippet
 
-snippet ts "ts"
-tostring(${1:var})${2}
-endsnippet
-
-snippet wh "wh"
+snippet wh "while"
 while ${1:condition} do
 	${2:--[[ code ]]}
 end

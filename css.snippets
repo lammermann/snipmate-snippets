@@ -1,32 +1,42 @@
-snippet paddingt "paddingt"
-padding-top: ${1:20px};$0
+global !p
+def complete(t, opts):
+	if t:
+		opts = [ m[len(t):] for m in opts if m.startswith(t) ]
+	if len(opts) == 1:
+		return opts[0]
+	return "(" + "|".join(opts) + ")"
+endglobal
+
+snippet margin- "margin type selector" !b
+margin-$1`!p snip.rv=complete(t[1],
+	['right', 'left', 'top', 'bottom', 'trbl', 'vh'])`
 endsnippet
 
-snippet margino "right #1"
+snippet margin-right "margin right"
 margin-right: ${1:20px};$0
 endsnippet
 
-snippet margino "left #2"
+snippet margin-left "margin left"
 margin-left: ${1:20px};$0
 endsnippet
 
-snippet margino "T_R_B_L #3"
+snippet margin-trbl "T_R_B_L"
 margin: ${1:20px} ${2:0px} ${3:40px} ${4:0px};$0
 endsnippet
 
-snippet margino "all #4"
+snippet margin "margin all in one"
 margin: ${1:20px};$0
 endsnippet
 
-snippet margino "V_H #5"
+snippet margin-vh "V_H #5"
 margin: ${1:20px} ${2:0px};$0
 endsnippet
 
-snippet margino "bottom #6"
+snippet margin-bottom "margin bottom"
 margin-bottom: ${1:20px};$0
 endsnippet
 
-snippet margino "top #7"
+snippet margin-top "margin top"
 margin-top: ${1:20px};$0
 endsnippet
 
@@ -39,7 +49,9 @@ border-width: ${1:1px};$0
 endsnippet
 
 snippet border "style #3"
-border-style: ${1:none/hidden/dotted/dashed/solid/double/groove/ridge/inset/outset};$0
+border-style: $1`!p snip.rv=complete(t[1],
+	['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove',
+	'ridge', 'inset', 'outset' ])`;$0
 endsnippet
 
 snippet border "basic #4"
@@ -51,7 +63,8 @@ letter-spacing: $1em;$0
 endsnippet
 
 snippet text "decoration #1"
-text-decoration: ${1:none/underline/overline/line-through/blink};$0
+text-decoration: $1`!p snip.rv=complete(t[1],
+	['none', 'underline', 'overline', 'line-through', 'blink'])`;$0
 endsnippet
 
 snippet text "indent #2"
@@ -63,11 +76,13 @@ text-shadow: rgb(${1:255},${2:255},${3:255}) ${4:10px} ${5:10px} ${6:2px};$0
 endsnippet
 
 snippet text "align #4"
-text-align: ${1:left/right/center/justify};$0
+text-align: $1`!p snip.rv=complete(t[1],
+	['left', 'right', 'center', 'justify'])`;$0
 endsnippet
 
 snippet text "transform #5"
-text-transform: ${1:capitalize/uppercase/lowercase};$0
+text-transform: $1`!p snip.rv=complete(t[1],
+	['capitalize', 'uppercase', 'lowercase'])`;$0
 endsnippet
 
 snippet text "transform_none #6"
@@ -86,11 +101,7 @@ snippet ! "!"
 !important
 endsnippet
 
-snippet padding "padding"
-padding: ${1:20px} ${2:0px} ${3:40px} ${4:0px};$0
-endsnippet
-
-snippet cursuru "cursuru"
+snippet cursuru "cursur url"
 cursor: url($1);$0
 endsnippet
 
@@ -121,7 +132,9 @@ border-right-width: ${1:1}px ${2:solid} #${3:999};$0
 endsnippet
 
 snippet borderr "style #3"
-border-right-style: ${1:none/hidden/dotted/dashed/solid/double/groove/ridge/inset/outset};$0
+border-right-style: $1`!p snip.rv=complete(t[1],
+	['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove',
+	'ridge', 'inset', 'outset'])`;$0
 endsnippet
 
 snippet borderr "basic #4"
@@ -129,11 +142,17 @@ border-right: ${1:1}px ${2:solid} #${3:999};$0
 endsnippet
 
 snippet background "all #1"
-background:${6: #${1:DDD}} url($2) ${3:repeat/repeat-x/repeat-y/no-repeat} ${4:scroll/fixed} ${5:top left/top center/top right/center left/center center/center right/bottom left/bottom center/bottom right/x-% y-%/x-pos y-pos};$0
+background: ${6: #${1:DDD}} url($2) $3`!p snip.rv=complete(t[3],
+	['repeat', 'repeat-x', 'repeat-y', 'no-repeat'])` $4`!p
+snip.rv=complete(t[4], ['scroll', 'fixed'])` $5`!p
+snip.rv=complete(t[5], ['top left', 'top center', 'top right', 'center left',
+	'center center', 'center right', 'bottom left', 'bottom center',
+	'bottom right', 'x-% y-%', 'x-pos y-pos'])`;$0
 endsnippet
 
 snippet background "repeat #2"
-background-repeat: ${1:repeat/repeat-x/repeat-y/no-repeat};$0
+background-repeat: $1`!p snip.rv=complete(t[1],
+	['repeat', 'repeat-x', 'repeat-y', 'no-repeat'])`;$0
 endsnippet
 
 snippet background "color #3"
@@ -153,7 +172,10 @@ background-image: url($1);$0
 endsnippet
 
 snippet background "position #7"
-background-position: ${1:top left/top center/top right/center left/center center/center right/bottom left/bottom center/bottom right/x-% y-%/x-pos y-pos};$0
+background-position: $1`!p snip.rv=complete(t[1],
+	['top left', 'top center', 'top right', 'center left',
+	'center center', 'center right', 'bottom left', 'bottom center',
+	'bottom right', 'x-% y-%', 'x-pos y-pos'])`;$0
 endsnippet
 
 snippet background "image_none #8"
@@ -161,7 +183,7 @@ background-image: none;$0
 endsnippet
 
 snippet background "attachment #9"
-background-attachment: ${1:scroll/fixed};$0
+background-attachment: $1`!p snip.rv=complete(t[1], ['scroll', 'fixed'])`;$0
 endsnippet
 
 snippet background "color_name #10"
@@ -178,14 +200,6 @@ endsnippet
 
 snippet position "position"
 position: ${1:static/relative/absolute/fixed};$0
-endsnippet
-
-snippet marginr "marginr"
-margin-right: ${1:20px};$0
-endsnippet
-
-snippet marginb "marginb"
-margin-bottom: ${1:20px};$0
 endsnippet
 
 snippet cl "cl"
@@ -329,22 +343,10 @@ snippet letter "letter"
 letter-spacing: ${1}${2:em/px};$0
 endsnippet
 
-snippet margint "margint"
-margin-top: ${1:20px};$0
-endsnippet
-
-snippet marginl "marginl"
-margin-left: ${1:20px};$0
-endsnippet
-
 snippet # "#"
 #${1:id} {
 ${2}
 }
-endsnippet
-
-snippet paddingr "paddingr"
-padding-right: ${1:20px};$0
 endsnippet
 
 snippet word "spacing_length #1"
@@ -355,10 +357,6 @@ snippet word "spacing_normal #2"
 word-spacing: normal;$0
 endsnippet
 
-snippet paddingb "paddingb"
-padding-bottom: ${1:20px};$0
-endsnippet
-
 snippet z "z"
 z-index: $1;$0
 endsnippet
@@ -367,20 +365,32 @@ snippet float "float"
 float: ${1:left/right/none};$0
 endsnippet
 
-snippet paddingl "paddingl"
-padding-left: ${1:20px};$0
-endsnippet
-
-snippet white "white"
-white-space: ${1:normal/pre/nowrap};$0
-endsnippet
-
 snippet cursor "cursor"
 cursor: ${1:default/auto/crosshair/pointer/move/*-resize/text/wait/help};$0
 endsnippet
 
 snippet letterpx "letterpx"
 letter-spacing: $1px;$0
+endsnippet
+
+snippet padding "padding"
+padding: ${1:20px} ${2:0px} ${3:40px} ${4:0px};$0
+endsnippet
+
+snippet paddingt "padding top"
+padding-top: ${1:20px};$0
+endsnippet
+
+snippet paddingr "paddingr"
+padding-right: ${1:20px};$0
+endsnippet
+
+snippet paddingb "paddingb"
+padding-bottom: ${1:20px};$0
+endsnippet
+
+snippet paddingl "paddingl"
+padding-left: ${1:20px};$0
 endsnippet
 
 snippet paddingo "right #1"
@@ -411,9 +421,13 @@ snippet paddingo "top #7"
 padding-top: ${1:20px};$0
 endsnippet
 
+snippet white "white"
+white-space: ${1:normal/pre/nowrap};$0
+endsnippet
+
 snippet tag "tag"
 ${1:tag} {
-${2:color: pink;}
+	${2:color: pink;}
 }
 endsnippet
 
@@ -448,10 +462,3 @@ endsnippet
 snippet list-style "type_other #8"
 list-style-type: ${1:hebrew/armenian/georgian};$0
 endsnippet
-
-snippet margin "margin"
-margin: ${1:20px} ${2:0px} ${3:40px} ${4:0px};$0
-
-endsnippet
-
-
