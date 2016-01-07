@@ -1,18 +1,31 @@
-###########################################################################
-#                            TextMate Snippets                            #
-###########################################################################
-
 global !p
 def x(snip):
     if snip.ft.startswith("x"):
         snip.rv = '/'
     else:
         snip.rv = ""
+
+def complete(t, opts):
+	if t:
+		opts = [ m[len(t):] for m in opts if m.startswith(t) ]
+	if len(opts) == 1:
+		return opts[0]
+	if len(opts) == 0:
+		return ""
+	return "(" + "|".join(opts) + ")"
 endglobal
 
 ############
 # Doctypes #
 ############
+snippet <!doc "doctype HTML 5" b
+<!doctype html>
+endsnippet
+
+snippet <! "doctype HTML 5" b
+<!doctype html>
+endsnippet
+
 snippet doctype "DocType XHTML 1.0 Strict" b
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -115,6 +128,15 @@ endsnippet
 #############
 # HTML TAGS #
 #############
+snippet < "generic tag"
+<$1`!p snip.rv=complete(t[1],
+	['input', 'option', 'select', 'a', 'div', 'link', 'script', 'table'])`
+endsnippet
+
+snippet <input "Input with Label"
+<label for="${2:${1/[[:alpha:]]+|( )/(?1:_:\L$0)/g}}">$1</label><input type="${3:text/submit/hidden/button}" name="${4:$2}" value="$5"${6: id="${7:$2}"}`!p x(snip)`>
+endsnippet
+
 snippet input "Input with Label"
 <label for="${2:${1/[[:alpha:]]+|( )/(?1:_:\L$0)/g}}">$1</label><input type="${3:text/submit/hidden/button}" name="${4:$2}" value="$5"${6: id="${7:$2}"}`!p x(snip)`>
 endsnippet
@@ -128,7 +150,7 @@ snippet opt "Option"
 <option${1: value="${2:option}"}>${3:$2}</option>
 endsnippet
 
-snippet select "Select Box"
+snippet <select "Select Box"
 <select name="${1:some_name}" id="${2:$1}"${3:${4: multiple}${5: onchange="${6:}"}${7: size="${8:1}"}}>
 	<option${9: value="${10:option1}"}>${11:$10}</option>
 	<option${12: value="${13:option2}"}>${14:$13}</option>${15:}
@@ -136,6 +158,13 @@ snippet select "Select Box"
 </select>
 endsnippet
 
+snippet select "Select Box"
+<select name="${1:some_name}" id="${2:$1}"${3:${4: multiple}${5: onchange="${6:}"}${7: size="${8:1}"}}>
+	<option${9: value="${10:option1}"}>${11:$10}</option>
+	<option${12: value="${13:option2}"}>${14:$13}</option>${15:}
+	$0
+</select>
+endsnippet
 
 snippet textarea "XHTML   <textarea>"
 <textarea name="${1:Name}" rows="${2:8}" cols="${3:40}">$0</textarea>
@@ -149,15 +178,7 @@ snippet base "XHTML <base>"
 <base href="$1"${2: target="$3"}`!p x(snip)`>
 endsnippet
 
-snippet body "XHTML <body>"
-<body id="${1:`!p
-snip.rv = snip.fn and 'Hallo' or 'Nothin'
-`}"${2: onload="$3"}>
-	$0
-</body>
-endsnippet
-
-snippet div "XHTML <div>"
+snippet <div "XHTML <div>"
 <div${1: id="${2:name}"}>
 	$0
 </div>
@@ -175,18 +196,6 @@ endsnippet
 
 snippet h1 "XHTML <h1>"
 <h1 id="${1/[\w\d]+|( )/(?1:_:\L$0\E)/g}">${1}</h1>
-endsnippet
-
-snippet head "XHTML <head>"
-<head>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8"`!p x(snip)`>
-	<title>${1:`!p snip.rv = snip.basename or "Page Title"`}</title>
-	$0
-</head>
-endsnippet
-
-snippet link "XHTML <link>"
-<link rel="${1:stylesheet}" href="${2:/css/master.css}" type="text/css" media="${3:screen}" title="${4:no title}" charset="${5:utf-8}"`!p x(snip)`>
 endsnippet
 
 snippet meta "XHTML <meta>"
@@ -248,7 +257,7 @@ endsnippet
 
 snippet fieldset "Fieldset"
 <fieldset id="${1/[\w\d]+|( )/(?1:_:\L$0\E)/g}" ${2:class="${3:}"}>
-	<legend>$1</legend>	
+	<legend>$1</legend>
 
 	$0
 </fieldset>
@@ -360,10 +369,6 @@ snippet doctype "HTML 4.01 Transitional"
 "http://www.w3.org/TR/html4/loose.dtd">
 endsnippet
 
-snippet doctype "HTML 5"
-<!DOCTYPE HTML>
-endsnippet
-
 snippet doctype "XHTML 1.0 Frameset"
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -394,11 +399,6 @@ endsnippet
 snippet doct "doct"
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
-endsnippet
-
-# HTML Doctype 5
-snippet doct5 "doct5"
-<!DOCTYPE HTML>
 endsnippet
 
 # XHTML Doctype 1.0 Frameset
@@ -434,15 +434,15 @@ snippet attr+ "attr+"
 ${1:attribute}="${2:property}" attr+${3}
 endsnippet
 
-snippet . "."
+snippet . "class"
 class="${1}"${2}
 endsnippet
 
-snippet # "#"
+snippet # "id"
 id="${1}"${2}
 endsnippet
 
-snippet alt "alt"
+snippet alt "alternative text"
 alt="${1}"${2}
 endsnippet
 
@@ -632,13 +632,7 @@ snippet blockquote "blockquote"
 </blockquote>${2}
 endsnippet
 
-snippet body "body"
-<body>
-	${1}
-</body>
-endsnippet
-
-snippet br "br"
+snippet br "linebreak"
 <br />${1}
 endsnippet
 
@@ -974,12 +968,18 @@ snippet h6# "h6#"
 <h6 id="${1}">${2}</h6>${3}
 endsnippet
 
-snippet head "head"
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+snippet head "head tag" "snip.buffer[snip.line][snip.column-4] == '<'" we
+head>
+	<meta charset="utf-8" />
+	<title>${1:`!p snip.rv = snip.basename`}</title>${2}
+</head>${3:
+<body}$0
+endsnippet
 
-	<title>${1:`!v substitute(Filename('', 'Page Title'), '^.', '\u&', '')`}</title>${2}
-</head>
+snippet <body "body tag"
+<body>
+	${1:${VISUAL}}
+</body>
 endsnippet
 
 snippet header "header"
@@ -988,28 +988,10 @@ snippet header "header"
 </header>${2}
 endsnippet
 
-snippet header. "header."
-<header class="${1}">
-	${2}
-</header>${3}
-endsnippet
-
-snippet header# "header#"
-<header id="${1}">
-	${2}
-</header>${3}
-endsnippet
-
 snippet hgroup "hgroup"
 <hgroup>
 	${1}
 </hgroup>${2}
-endsnippet
-
-snippet hgroup. "hgroup."
-<hgroup class="${1}>
-	${2}
-</hgroup>${3}
 endsnippet
 
 snippet hr "hr"
@@ -1018,13 +1000,13 @@ endsnippet
 
 snippet html "html"
 <html>
-${1}
+${1:${VISUAL}}
 </html>
 endsnippet
 
 snippet xhtml "xhtml"
 <html xmlns="http://www.w3.org/1999/xhtml">
-${1}
+${1:${VISUAL}}
 </html>
 endsnippet
 
@@ -1036,24 +1018,8 @@ snippet iframe "iframe"
 <iframe src="${1}" frameborder="0"></iframe>${2}
 endsnippet
 
-snippet iframe. "iframe."
-<iframe class="${1}" src="${2}" frameborder="0"></iframe>${3}
-endsnippet
-
-snippet iframe# "iframe#"
-<iframe id="${1}" src="${2}" frameborder="0"></iframe>${3}
-endsnippet
-
-snippet img "img"
-<img src="${1}" alt="${2}" />${3}
-endsnippet
-
-snippet img. "img."
-<img class="${1}" src="${2}" alt="${3}" />${4}
-endsnippet
-
-snippet img# "img#"
-<img id="${1}" src="${2}" alt="${3}" />${4}
+snippet img "imgage"
+<img ${2:class="${3:image}" }src="${1}"${4: alt="${5:$1}"} />$0
 endsnippet
 
 snippet input "input"
@@ -1064,91 +1030,91 @@ snippet input. "input."
 <input class="${1}" type="${2:text/submit/hidden/button/image}" name="${3}" id="${4:$3}" value="${5}" />${6}
 endsnippet
 
-snippet input:text "input:text"
+snippet <input:text "input:text"
 <input type="text" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:submit "input:submit"
+snippet <input:submit "input:submit"
 <input type="submit" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:hidden "input:hidden"
+snippet <input:hidden "input:hidden"
 <input type="hidden" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:button "input:button"
+snippet <input:button "input:button"
 <input type="button" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:image "input:image"
+snippet <input:image "input:image"
 <input type="image" name="${1}" id="${2:$1}" src="${3}" alt="${4}" />${5}
 endsnippet
 
-snippet input:checkbox "input:checkbox"
+snippet <input:checkbox "input:checkbox"
 <input type="checkbox" name="${1}" id="${2:$1}" />${3}
 endsnippet
 
-snippet input:radio "input:radio"
+snippet <input:radio "input:radio"
 <input type="radio" name="${1}" id="${2:$1}" />${3}
 endsnippet
 
-snippet input:color "input:color"
+snippet <input:color "input:color"
 <input type="color" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:date "input:date"
+snippet <input:date "input:date"
 <input type="date" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:datetime "input:datetime"
+snippet <input:datetime "input:datetime"
 <input type="datetime" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:datetime-local "input:datetime-local"
+snippet <input:datetime-local "input:datetime-local"
 <input type="datetime-local" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:email "input:email"
+snippet <input:email "input:email"
 <input type="email" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:file "input:file"
+snippet <input:file "input:file"
 <input type="file" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:month "input:month"
+snippet <input:month "input:month"
 <input type="month" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:number "input:number"
+snippet <input:number "input:number"
 <input type="number" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:password "input:password"
+snippet <input:password "input:password"
 <input type="password" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:range "input:range"
+snippet <input:range "input:range"
 <input type="range" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:reset "input:reset"
+snippet <input:reset "input:reset"
 <input type="reset" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:search "input:search"
+snippet <input:search "input:search"
 <input type="search" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:time "input:time"
+snippet <input:time "input:time"
 <input type="time" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:url "input:url"
+snippet <input:url "input:url"
 <input type="url" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
-snippet input:week "input:week"
+snippet <input:week "input:week"
 <input type="week" name="${1}" id="${2:$1}" value="${3}" />${4}
 endsnippet
 
@@ -1211,26 +1177,32 @@ lia+${3}
 endsnippet
 
 snippet link "link"
-<link rel="${1}" href="${2}" title="${3}" type="${4}" />${5}
+<link:$1`!p snip.rv=complete(t[1],
+	['atom', 'css', 'favicon', 'rss', 'touch'])`
 endsnippet
 
-snippet link:atom "link:atom"
+snippet <link "link"
+<link:$1`!p snip.rv=complete(t[1],
+	['atom', 'css', 'favicon', 'rss', 'touch'])`
+endsnippet
+
+snippet <link:atom "link:atom"
 <link rel="alternate" href="${1:atom.xml}" title="Atom" type="application/atom+xml" />${2}
 endsnippet
 
-snippet link:css "link:css"
+snippet <link:css "link:css"
 <link rel="stylesheet" href="${2:style.css}" type="text/css" media="${3:all}" />${4}
 endsnippet
 
-snippet link:favicon "link:favicon"
+snippet <link:favicon "link:favicon"
 <link rel="shortcut icon" href="${1:favicon.ico}" type="image/x-icon" />${2}
 endsnippet
 
-snippet link:rss "link:rss"
+snippet <link:rss "link:rss"
 <link rel="alternate" href="${1:rss.xml}" title="RSS" type="application/atom+xml" />${2}
 endsnippet
 
-snippet link:touch "link:touch"
+snippet <link:touch "link:touch"
 <link rel="apple-touch-icon" href="${1:favicon.png}" />${2}
 endsnippet
 
@@ -1370,23 +1342,27 @@ snippet ol+ "ol+"
 </ol>
 endsnippet
 
-snippet opt "opt"
-<option value="${1}">${2:$1}</option>${3}
+snippet option "option"
+<option value="${1}">${2:$1}</option>${3:
+<option}$0
 endsnippet
 
-snippet opt+ "opt+"
-<option value="${1}">${2:$1}</option>
-opt+${3}
+snippet <option "option"
+<option value="${1}">${2:$1}</option>${3:
+<option}$0
 endsnippet
 
-snippet optt "optt"
-<option>${1}</option>${2}
+snippet <optgroup "optgroup"
+<optgroup>
+	<option value="${1}">${2:$1}</option>${3:
+	<option}$0
+</optgroup>
 endsnippet
 
 snippet optgroup "optgroup"
 <optgroup>
-	<option value="${1}">${2:$1}</option>
-	opt+${3}
+	<option value="${1}">${2:$1}</option>${3:
+	<option}$0
 </optgroup>
 endsnippet
 
@@ -1440,14 +1416,16 @@ snippet samp "samp"
 </samp>${2}
 endsnippet
 
-snippet script "script"
-<script type="text/javascript" charset="utf-8">
-	${1}
-</script>${2}
-endsnippet
-
-snippet scriptsrc "scriptsrc"
-<script src="${1}.js" type="text/javascript" charset="utf-8"></script>
+snippet <script
+<script type="text/javascript" charset="utf-8"${1: src="${2:script}.js"} >`!p
+if t[1] == '':
+	snip >> 2
+	snip.rv += '\n' + snip.mkline()
+`$3`!p
+if t[1] == '':
+	snip.shift()
+	snip.rv = '\n' + snip.mkline()
+`</script>$0
 endsnippet
 
 snippet section "section"
@@ -1468,25 +1446,6 @@ snippet section# "section#"
 </section>${3}
 endsnippet
 
-snippet select "select"
-<select name="${1}" id="${2:$1}">
-	${3}
-</select>
-endsnippet
-
-snippet select. "select."
-<select name="${1}" id="${2:$1}" class="${3}>
-	${4}
-</select>
-endsnippet
-
-snippet select+ "select+"
-<select name="${1}" id="${2:$1}">
-	<option value="${3}">${4:$3}</option>
-	opt+${5}
-</select>
-endsnippet
-
 snippet small "small"
 <small>${1}</small>${2}
 endsnippet
@@ -1499,18 +1458,22 @@ snippet span "span"
 <span>${1}</span>${2}
 endsnippet
 
-snippet strong "strong"
+snippet <strong "strong"
 <strong>${1}</strong>${2}
 endsnippet
 
-snippet style "style"
+snippet <style "style tag"
 <style type="text/css" media="${1:all}">
 	${2}
 </style>
 endsnippet
 
-snippet sub "sub"
-<sub>${1}</sub>${2}
+snippet <sub "subscript"
+<sub>${1}</sub>$0
+endsnippet
+
+snippet <sup "superscript"
+<sup>${1}</sup>$0
 endsnippet
 
 snippet summary "summary"
@@ -1519,11 +1482,7 @@ snippet summary "summary"
 </summary>${2}
 endsnippet
 
-snippet sup "sup"
-<sup>${1}</sup>${2}
-endsnippet
-
-snippet table "table"
+snippet <table "table"
 <table border="${1:0}">
 	${2}
 </table>
@@ -1645,10 +1604,6 @@ endsnippet
 
 snippet video "video"
 <video src="${1} height="${2}" width="${3}" preload="${5:none}" autoplay="${6:autoplay}>${7}</video>${8}
-endsnippet
-
-snippet wbr "wbr"
-<wbr />${1}
 endsnippet
 
 # vim:ft=snippets:

@@ -58,47 +58,43 @@ snippet border "basic #4"
 border: ${1:1px} ${2:solid} #${3:999};$0
 endsnippet
 
-snippet letterem "letterem"
+snippet letterem "letter-spacing em"
 letter-spacing: $1em;$0
 endsnippet
 
-snippet text "decoration #1"
+snippet text-decoration "decoration"
 text-decoration: $1`!p snip.rv=complete(t[1],
 	['none', 'underline', 'overline', 'line-through', 'blink'])`;$0
 endsnippet
 
-snippet text "indent #2"
+snippet text-indent "indent"
 text-indent: ${1:10}px;$0
 endsnippet
 
-snippet text "shadow_rgb #3"
+snippet text-shadow "shadow_rgb"
 text-shadow: rgb(${1:255},${2:255},${3:255}) ${4:10px} ${5:10px} ${6:2px};$0
 endsnippet
 
-snippet text "align #4"
+snippet text-shadow_hex "shadow_hex"
+text-shadow: #${1:DDD} ${2:10px} ${3:10px} ${4:2px};$0
+endsnippet
+
+snippet text-shadow_none "shadow_none"
+text-shadow: none;$0
+endsnippet
+
+snippet text-align "align"
 text-align: $1`!p snip.rv=complete(t[1],
 	['left', 'right', 'center', 'justify'])`;$0
 endsnippet
 
-snippet text "transform #5"
+snippet text-transform "transform"
 text-transform: $1`!p snip.rv=complete(t[1],
 	['capitalize', 'uppercase', 'lowercase'])`;$0
 endsnippet
 
-snippet text "transform_none #6"
+snippet text-transform_none "transform: none"
 text-transform: none;$0
-endsnippet
-
-snippet text "shadow_none #7"
-text-shadow: none;$0
-endsnippet
-
-snippet text "shadow_hex #8"
-text-shadow: #${1:DDD} ${2:10px} ${3:10px} ${4:2px};$0
-endsnippet
-
-snippet ! "!"
-!important
 endsnippet
 
 snippet cursuru "cursur url"
@@ -117,6 +113,10 @@ endsnippet
 
 snippet colorn "colorn"
 color: ${1:red};$0
+endsnippet
+
+snippet ! "!"
+!important
 endsnippet
 
 snippet i "i"
@@ -141,7 +141,7 @@ snippet borderr "basic #4"
 border-right: ${1:1}px ${2:solid} #${3:999};$0
 endsnippet
 
-snippet background "all #1"
+snippet background "all"
 background: ${6: #${1:DDD}} url($2) $3`!p snip.rv=complete(t[3],
 	['repeat', 'repeat-x', 'repeat-y', 'no-repeat'])` $4`!p
 snip.rv=complete(t[4], ['scroll', 'fixed'])` $5`!p
@@ -150,73 +150,78 @@ snip.rv=complete(t[5], ['top left', 'top center', 'top right', 'center left',
 	'bottom right', 'x-% y-%', 'x-pos y-pos'])`;$0
 endsnippet
 
-snippet background "repeat #2"
+snippet background-repeat "repeat"
 background-repeat: $1`!p snip.rv=complete(t[1],
 	['repeat', 'repeat-x', 'repeat-y', 'no-repeat'])`;$0
 endsnippet
 
-snippet background "color #3"
+snippet background-color "color"
 background-color: #${1:DDD};$0
 endsnippet
 
-snippet background "color_rgb #4"
+snippet background-color_rgb "color rgb"
 background-color: rgb(${1:255},${2:255},${3:255});$0
 endsnippet
 
-snippet background "color_transparent #5"
+snippet background-color_transp "color transparent"
 background-color: transparent;$0
 endsnippet
 
-snippet background "image_url #6"
+snippet background-colorn "color name"
+background-color: ${1:red};$0
+endsnippet
+
+snippet background-image "image url"
 background-image: url($1);$0
 endsnippet
 
-snippet background "position #7"
+snippet background-imagen "image none"
+background-image: none;$0
+endsnippet
+
+snippet background-pos "position"
 background-position: $1`!p snip.rv=complete(t[1],
 	['top left', 'top center', 'top right', 'center left',
 	'center center', 'center right', 'bottom left', 'bottom center',
 	'bottom right', 'x-% y-%', 'x-pos y-pos'])`;$0
 endsnippet
 
-snippet background "image_none #8"
-background-image: none;$0
-endsnippet
-
-snippet background "attachment #9"
+snippet background-attachment "attachment"
 background-attachment: $1`!p snip.rv=complete(t[1], ['scroll', 'fixed'])`;$0
 endsnippet
 
-snippet background "color_name #10"
-background-color: ${1:red};$0
-endsnippet
-
 snippet vertical "vertical"
-vertical-align: ${1:baseline/sub/super/top/text-top/middle/bottom/text-bottom/length/%};$0
+vertical-align: $1`!p snip.rv=complete(t[1],
+	['baseline', 'sub', 'super', 'top', 'text-top', 'middle', 'bottom',
+	'text-bottom', 'length', '%'])`;$0
+vertical-align: ${1:};$0
 endsnippet
 
 snippet direction "direction"
-direction: ${1:ltr|rtl};$0
+direction: $1`!p snip.rv=complete(t[1], ['ltr', 'rtl'])`;$0
 endsnippet
 
 snippet position "position"
-position: ${1:static/relative/absolute/fixed};$0
+position: $1`!p snip.rv=complete(t[1],
+	['static', 'relative', 'absolute', 'fixed'])`;$0
 endsnippet
 
-snippet cl "cl"
+snippet cl "class"
 .${1:class} {
 ${2:color: pink;}
 }
 endsnippet
 
-snippet colorr "colorr"
+snippet colorr "color rgb"
 color: rgb(${1:255},${2:255},${3:255});$0
 endsnippet
 
 snippet overflow "overflow"
-overflow: ${1:visible/hidden/scroll/auto};$0
+overflow: $1`!p snip.rv=complete(t[1],
+	['visible', 'hidden', 'scroll', 'auto'])`;$0
 endsnippet
 
-snippet borderb "color #1"
+snippet borderb "color"
 border-bottom-color: #${1:999};$0
 endsnippet
 
@@ -443,12 +448,12 @@ snippet list-style "type_asian #3"
 list-style-type: ${1:cjk-ideographic/hiragana/katakana/hiragana-iroha/katakana-iroha};$0
 endsnippet
 
-snippet list-style "position #4"
-list-style-position: ${1:inside/outside};$0
-endsnippet
-
 snippet list-style "type_marker #5"
 list-style-type: ${1:none/disc/circle/square};$0
+endsnippet
+
+snippet list-style "position #4"
+list-style-position: ${1:inside/outside};$0
 endsnippet
 
 snippet list-style "type_numeric #6"

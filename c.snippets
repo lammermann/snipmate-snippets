@@ -5,34 +5,26 @@
 snippet main "main"
 int main(int argc, const char *argv[])
 {
-	${1:/* code */}
+	${0:/* code */}
 	return 0;
 }
 endsnippet
 
-snippet mainn "mainn"
-int main(void)
-{
-	${1}
-	return 0;
-}
+snippet #inc "include"
+#include ${1:<${2:stdio.h}}`!p
+def decide(text):
+	if text.startswith('"'):
+		return '"'
+	return '>'
+
+snip.rv=decide(t[1])
+`$0
 endsnippet
 
-# #include <...>
-snippet #inc "inc_global #1"
-#include <${1:stdio}.h>${2}
-endsnippet
-
-# #include "..."
-snippet #inc "inc #2"
-#include "${1:`!v Filename("$1.h")`}"${2}
-endsnippet
-
-# #ifndef ... #define ... #endif
-snippet #ifndef "#ifndef"
+snippet #ifndef "#ifndef ... #define ... #endif"
 #ifndef $1
 #define ${1:SYMBOL} ${2:value}
-#endif${3}
+#endif /* $1 */
 endsnippet
 
 snippet #def "#def"
@@ -45,23 +37,23 @@ ${2:// code}
 #endif /* $1 */
 endsnippet
 
-snippet #if "#if"
+snippet #if "#if #endif" !b
 #if ${1:FOO}
-${0:/* data */}
-#endif
+${VISUAL:code}$0
+#endif /* $1 */
 endsnippet
 
 # Header Include-Guard
 snippet once "Include header once only guard"
 /**
-* @file ${1:`!v Filename('', 'TODO')`}
+* @file ${1:`!p snip.rv = snip.fn`}
 *
 * @brief ${3: TODO}
 *
 */
 #ifndef ${2:`!p
 if not snip.c:
-	import random, string
+	import string
 	name = re.sub(r'[^A-Za-z0-9]+','_', snip.fn).upper()
 	snip.rv = name.upper()
 else:
@@ -81,35 +73,33 @@ if (${1:/* condition */})
 }
 endsnippet
 
-snippet el "el"
+snippet el "else"
 else
 {
 	${1}
 }
 endsnippet
 
-# Ternary conditional
-snippet t "t"
+snippet ? "ternary conditional"
 ${1:/* condition */} ? ${2:a} : ${3:b}
 endsnippet
 
-# Do While Loop
-snippet do "do"
+snippet do "do...while loop (do)"
 do
 {
-	${2:/* code */}
+	${0:/* code */}
 } while (${1:/* condition */});
 endsnippet
 
 # While Loop
-snippet wh "wh"
+snippet wh "while"
 while (${1:/* condition */})
 {
 	${2:/* code */}
 }
 endsnippet
 
-snippet un "un"
+snippet un "unsigned"
 unsigned
 endsnippet
 
@@ -137,14 +127,12 @@ ${1:void} ${2:function_name}(${3})
 }
 endsnippet
 
-# Function Declaration
-snippet fund "fund"
+snippet fund "function declaration"
 ${1:void} ${2:function_name}(${3});${4}
 endsnippet
 
-# Typedef
-snippet td "td"
-typedef ${1:int} ${2:MyCustomType};${3}
+snippet ty "typedef"
+typedef ${1:int} ${2:MyCustomType};
 endsnippet
 
 # Struct
@@ -156,7 +144,7 @@ struct ${1:`!p snip.rv = (snip.basename or "name") + "_t"`}
 endsnippet
 
 # Typedef struct
-snippet tds "tds"
+snippet tds "typedef struct"
 typedef struct ${2:_$1 }
 {
 	${3:/* data */}
@@ -167,8 +155,8 @@ endsnippet
 snippet tde "tde"
 typedef enum
 {
-	${1:/* data */}
-} ${2:foo};
+	${2:/* data */}
+} ${1:foo};
 endsnippet
 
 # This is kind of convenient
@@ -176,24 +164,8 @@ snippet . "."
 [${1}]${2}
 endsnippet
 
-snippet def "#ifndef ... #define ... #endif"
-#ifndef ${1/([A-Za-z0-9_]+).*/$1/}
-#define ${1:SYMBOL} ${2:value}
-#endif
-endsnippet
-
-snippet #if "#if #endif" !b
-#if ${1:0}
-${VISUAL:code}$0
-#endif
-endsnippet
-
 snippet inc "#include local header (inc)"
 #include "${1:`!p snip.rv = snip.basename + '.h'`}"
-endsnippet
-
-snippet Inc "#include <> (Inc)"
-#include <${1:.h}>
 endsnippet
 
 snippet mark "#pragma mark (mark)"
@@ -205,26 +177,8 @@ ${1:#pragma mark -
 $0
 endsnippet
 
-snippet main "main() (main)"
-int main(int argc, char const *argv[])
-{
-	${0:/* code */}
-	return 0;
-}
-endsnippet
-
 snippet enum "Enumeration"
 enum ${1:name} { $0 };
-endsnippet
-
-snippet td "Typedef"
-typedef ${1:int} ${2:MyCustomType};
-endsnippet
-
-snippet do "do...while loop (do)"
-do {
-	${0:/* code */}
-} while(${1:/* condition */});
 endsnippet
 
 # printf
