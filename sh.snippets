@@ -1,32 +1,24 @@
-###########################################################################
-#                            TextMate Snippets                            #
-###########################################################################
+global !p
+def complete(t, opts):
+	if t:
+		opts = [ m[len(t):] for m in opts if m.startswith(t) ]
+	if len(opts) == 1:
+		return opts[0]
+	return "(" + "|".join(opts) + ")"
+endglobal
+
 
 # Shebang
-snippet #! "#!"
-#!/bin/bash
+snippet #! "shebang"
+#!/$1`!p snip.rv=complete(t[1], ['bin/bash', 'usr/bin/env bash'])`
 ################################################################################
 # Created on: `!v system("date +%m-%d-%Y")`
-# Author: ${2:`!v g:snips_author`}
+# Author: ${3:`!v g:snips_author`}
 #
-# Description: ${1:description}
+# Description: ${2:description}
 ################################################################################
 
-${0}
-
-# vim:ft=sh:fdm=syntax:nu:
-endsnippet
-
-snippet #! "env"
-#!/usr/bin/env bash
-################################################################################
-# Created on: `!v system("date +%m-%d-%Y")`
-# Author: ${2:`!v g:snips_author`}
-#
-# Description: ${1:description}
-################################################################################
-
-${0}
+${VISUAL}$0
 
 # vim:ft=sh:fdm=syntax:nu:
 endsnippet
@@ -53,11 +45,11 @@ snippet condition "$#"
 ${1:$#} -lt ${2:1}
 endsnippet
 
-snippet condition "gt"
+snippet > "condition greater than"
 ${1:$var} -gt ${2:$other}
 endsnippet
 
-snippet condition "lt"
+snippet < "condition lower than"
 ${1:$#} -lt ${2:1}
 endsnippet
 
@@ -113,13 +105,13 @@ for ((i=1 ; i <= numargs ; i++)); do
 done
 endsnippet
 
-snippet until "until ... (done)"
+snippet unt "until ... (done)"
 until ${2:[[ ${1:condition} ]]}; do
 	${0:#statements}
 done
 endsnippet
 
-snippet while "while ... (done)"
+snippet wh "while ... (done)"
 while ${2:[[ ${1:condition} ]]}; do
 	${0:#statements}
 done
@@ -133,8 +125,8 @@ esac
 endsnippet
 
 snippet getopts "getopts"
-while getopts '${1:o}' ${2:opts} 
-do 
+while getopts '${1:o}' ${2:opts}
+do
 	case $$2 in
 	${3:o0})
 		${4:#staments};;
@@ -153,7 +145,7 @@ snippet sdir "sdir"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 endsnippet
 
-snippet fun "fun"
+snippet fun "function"
 function ${1:name}(){
 	${2:Commands}
 }
