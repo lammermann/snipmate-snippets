@@ -1,16 +1,14 @@
-###########################################################################
-#                            TEXTMATE SNIPPETS                            #
-###########################################################################
-
 #! header
 snippet #! "Shebang header for python scripts" b
 #!/usr/bin/env ${4:python}
 '''
-File: ${1:`!v Filename('$1.py', 'foo.py')`}
+Created on: `!v system("date +%m-%d-%Y")`
+File: ${1:`!p snip.rv=fn`}
 Author: ${2:`!v g:snips_author`}
-Description: ${3}
+
+Description: ${3:TODO}
 '''
-${5}
+$0
 endsnippet
 
 ##########
@@ -88,6 +86,13 @@ def write_init_body(args, parents, snip):
 def write_slots_args(args, snip):
     args = ['"%s"' % arg for arg in args]
     snip += '__slots__ = (%s,)' % ', '.join(args)
+
+def complete(t, opts):
+	if t:
+		opts = [ m[len(t):] for m in opts if m.startswith(t) ]
+	if len(opts) == 1:
+		return opts[0]
+	return "(" + "|".join(opts) + ")"
 
 endglobal
 

@@ -24,9 +24,9 @@ snippet lo "local variable"
 local ${1:x} = ${0:1}
 endsnippet
 
-snippet fun "function"
-function ${1:fname}(${2:...})
-	${3:-- body}
+snippet fun "function" b
+${3:local }function ${1:fname}(${2:...})
+	${4:-- body}
 end
 endsnippet
 
@@ -56,20 +56,8 @@ for ${1:i}=${2:1},${3:last}`!p snip.rv=ifempty(t[4],'',',')`${4:step} do
 end
 endsnippet
 
-snippet rep "repeat ... until"
-repeat
-	${1:--[[ code ]]}
-until ${2:condition}
-endsnippet
-
 snippet to "to(string|number)"
 to$1`!p snip.rv=complete(t[1],['string','number'])`(${2:var})$0
-endsnippet
-
-snippet tsortf "table sort function"
-table.sort(${1:tbl}, function(${2:a}, ${3:b})
-	${4:--[[ code ]]}
-end)
 endsnippet
 
 snippet if "if"
@@ -78,8 +66,14 @@ if ${1:condition} then
 end
 endsnippet
 
-snippet ass "assert"
-assert(${1:test} == ${2:condition}, "${3:errmsg}")
+snippet eli "elseif"
+elseif ${3:condition} then
+	${4:--[[ code ]]}
+endsnippet
+
+snippet el "else"
+else
+	${1:--[[ code ]]}
 endsnippet
 
 snippet pr "print"
@@ -90,10 +84,12 @@ snippet tins "table insert"
 ${1:tbl}[#$1 + ${3:1}] = ${2:val}${4}
 endsnippet
 
-snippet lfun "lfun"
-local function ${1:function_name}(${2:args})
-	${3:--[[ code ]]}
-end
+snippet tsort "table sort function"
+table.sort(${1:tbl}, function(a, b) return a ${2:<} b end)
+endsnippet
+
+snippet tcat "table concat"
+table.concat(${1:tbl}, ${2:","})
 endsnippet
 
 snippet ret "return"
@@ -112,20 +108,6 @@ snippet smt "setmetatable"
 setmetatable(${1:tbl}, ${2:...})
 endsnippet
 
-snippet tsort "tsort"
-table.sort(${1:tbl}, function(a, b) return a ${2:<} b end)
-endsnippet
-
-snippet eli "elseif"
-elseif ${3:condition} then
-	${4:--[[ code ]]}
-endsnippet
-
-snippet el "else"
-else
-	${1:--[[ code ]]}
-endsnippet
-
 snippet -- "block comment"
 --[[
 ${1:comment}
@@ -134,10 +116,6 @@ endsnippet
 
 snippet t "t"
 ${1:a} and ${2:b} or ${3:c}
-endsnippet
-
-snippet tcat "table concat"
-table.concat(${1:tbl}, ${2:","})
 endsnippet
 
 snippet do "do"
@@ -150,6 +128,36 @@ snippet wh "while"
 while ${1:condition} do
 	${2:--[[ code ]]}
 end
+endsnippet
+
+snippet rep "repeat ... until"
+repeat
+	${1:--[[ code ]]}
+until ${2:condition}
+endsnippet
+
+################################################################################
+# snippets for busted spec files
+################################################################################
+
+snippet describe "describe (container for further tests)" b
+describe("${1:test description}", function()
+	${0:pending("test needs to be defined")}
+end)
+endsnippet
+
+snippet it "it (the test function itself)" b
+it("${1:test description}", function()
+	${0:pending("test needs to be defined")}
+end)
+endsnippet
+
+snippet pen "pending" b
+pending("${1:TODO: test needs to be defined}")
+endsnippet
+
+snippet ass "assert"
+assert(${1:test} == ${2:condition}, "${3:errmsg}")
 endsnippet
 
 # vim:ft=snippets:
